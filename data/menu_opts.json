@@ -1,0 +1,85 @@
+{
+    "nombreApp" : "materna",
+    "rutas"  : [
+        {	
+            "ruta"      : "semanaGest",
+            "icon"      : "add_alert",
+            "texto"     : "Edad Gestacional x FUR",
+            "subtexto"  : "Calcula la edad gestacional según la FUR"
+},	
+
+
+{	
+            "ruta"      : "imcPre",
+            "icon"      : "add_alert",
+            "texto"     : "IMC pregestacional",
+            "subtexto"  : "Calcula el IMC según el peso Pregestacional"
+},	
+
+
+{	
+            "ruta"      : "pesoEstimado",
+            "icon"      : "add_alert",
+            "texto"     : "Peso pregestacional estimado",
+            "subtexto"  : "Calcula el peso estimado según peso actual"
+},	
+
+
+{	
+            "ruta"      : "edadPorEco",
+            "icon"      : "add_alert",
+            "texto"     : "Edad gestacional x ECO",
+            "subtexto"  : "Calcula la edad gestación según la última Ecografía"
+},	
+
+
+{	
+            "ruta"      : "evaluacionNutri",
+            "icon"      : "add_alert",
+            "texto"     : "Evaluación Nutricional",
+            "subtexto"  : "Evaluación del estado nutricional actual"
+},	
+
+
+{	
+            "ruta"      : "ganaciaPesoSemana",
+            "icon"      : "add_alert",
+            "texto"     : "Evaluación x Ganancia de peso",
+            "subtexto"  : "Evalación de la ganancia de peso por semana"
+},	
+
+
+{	
+            "ruta"      : "parametrosEco",
+            "icon"      : "add_alert",
+            "texto"     : "Parámetros Ecográficos",
+            "subtexto"  : "Evaluación según parámetros ecográficos"
+},	
+
+
+{	
+            "ruta"      : "alturaUterina",
+            "icon"      : "add_alert",
+            "texto"     : "Evaluación según altura uterina",
+            "subtexto"  : "Evaluación según ganancia de altura uterina"
+},	
+
+
+{	
+            "ruta"      : "recomendacionesGanancia",
+            "icon"      : "add_alert",
+            "texto"     : "Recomendaciones de Ganancia de Peso",
+            "subtexto"  : "Cuadro de recomendaciones para la ganancia de peso"
+},	
+
+
+{	
+            "ruta"      : "biblio",
+            "icon"      : "add_alert",
+            "texto"     : "Bibliorafía",
+            "subtexto"  : "Bibliografía y créditos"
+}	
+
+        
+    ]
+}
