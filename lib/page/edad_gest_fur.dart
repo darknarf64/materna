@@ -14,7 +14,7 @@ class _EdadgestacionalfurState extends State<Edadgestacionalfur> {
   //variables a utilizar
   String _fecha = '';
   String _fechaFUR = '';
-  DateTime picketFUR;
+  DateTime picketFUR = DateTime.now();
 
   //textcontroles de los botones de fechas
   TextEditingController _inputFieldFURController = new TextEditingController();
@@ -76,12 +76,12 @@ class _EdadgestacionalfurState extends State<Edadgestacionalfur> {
   }
 
 //pendiente
-  Future _seleccionarFUR(BuildContext context) async {
-    DateTime picked = await showDatePicker(
+  _seleccionarFUR(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
         context: context,
         initialDate: new DateTime.now(),
-        firstDate: new DateTime(1900),
-        lastDate: new DateTime(3000),
+        firstDate: new DateTime(2000),
+        lastDate: new DateTime(2300),
         locale: Locale('es', 'ES'));
 
     if (picked != null) {
