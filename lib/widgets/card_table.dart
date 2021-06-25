@@ -11,57 +11,101 @@ class CardTable extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, 'edadgestFUR');
-              print('ok');
             },
             child: _SingleCard(
                 color: Colors.blue,
                 icon: Icons.calendar_today,
                 text: 'Edad gestacional según FUR'),
           ),
-          _SingleCard(
-              color: Colors.pinkAccent,
-              icon: Icons.assignment,
-              text: 'Estado nutrcional según IMC pre-gestacional'),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'enutIMCPreG');
+            },
+            child: _SingleCard(
+                color: Colors.pinkAccent,
+                icon: Icons.assignment,
+                text: 'Estado nutrcional según IMC pre-gestacional'),
+          ),
         ]),
         TableRow(children: [
-          _SingleCard(
-              color: Colors.cyanAccent,
-              icon: Icons.account_balance_wallet,
-              text: 'Peso pregestacional estimado'),
-          _SingleCard(
-              color: Colors.deepOrange,
-              icon: Icons.preview,
-              text: 'Edad gestacional según fecha de última ecografía'),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'pesoEstimado');
+            },
+            child: _SingleCard(
+                color: Colors.cyanAccent,
+                icon: Icons.account_balance_wallet,
+                text: 'Peso pregestacional estimado'),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'edadgestEco');
+            },
+            child: _SingleCard(
+                color: Colors.deepOrange,
+                icon: Icons.preview,
+                text: 'Edad gestacional según fecha de última ecografía'),
+          ),
         ]),
         TableRow(children: [
-          _SingleCard(
-              color: Colors.greenAccent,
-              icon: Icons.assessment,
-              text: 'Evaluación nutricional por ganacias de peso total'),
-          _SingleCard(
-              color: Colors.purple,
-              icon: Icons.sticky_note_2,
-              text: 'Evaluación según ganancia de peso por semana'),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'evaluacionNutricional');
+            },
+            child: _SingleCard(
+                color: Colors.greenAccent,
+                icon: Icons.assessment,
+                text: 'Evaluación nutricional por ganacias de peso total'),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'gananciapesosemana');
+            },
+            child: _SingleCard(
+                color: Colors.purple,
+                icon: Icons.sticky_note_2,
+                text: 'Evaluación según ganancia de peso por semana'),
+          ),
         ]),
         TableRow(children: [
-          _SingleCard(
-              color: Colors.indigoAccent,
-              icon: Icons.support,
-              text: 'Parámetros ecográficos y peso del bebé'),
-          _SingleCard(
-              color: Colors.lightBlue,
-              icon: Icons.pregnant_woman,
-              text: 'Evaluación según altura uterina por semana gestacional'),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'parametrosEcograficos');
+            },
+            child: _SingleCard(
+                color: Colors.indigoAccent,
+                icon: Icons.support,
+                text: 'Parámetros ecográficos y peso del bebé'),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'alturaUterina');
+            },
+            child: _SingleCard(
+                color: Colors.lightBlue,
+                icon: Icons.pregnant_woman,
+                text: 'Evaluación según altura uterina por semana gestacional'),
+          ),
         ]),
         TableRow(children: [
-          _SingleCard(
-              color: Colors.lightGreen,
-              icon: Icons.recommend,
-              text: 'Cuadro de recomencaciones de ganancia de peso'),
-          _SingleCard(
-              color: Colors.pinkAccent,
-              icon: Icons.library_books,
-              text: 'Bibliografía'),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'cuadroRecomendaciones');
+            },
+            child: _SingleCard(
+                color: Colors.lightGreen,
+                icon: Icons.recommend,
+                text: 'Cuadro de recomencaciones de ganancia de peso'),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'biblio');
+            },
+            child: _SingleCard(
+                color: Colors.pinkAccent,
+                icon: Icons.library_books,
+                text: 'Bibliografía'),
+          ),
         ])
       ],
     );
