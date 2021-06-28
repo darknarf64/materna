@@ -25,9 +25,9 @@ class PageBackground extends StatelessWidget {
         Center(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.90,
-            width: MediaQuery.of(context).size.width * 0.90,
+            width: MediaQuery.of(context).size.width * 0.95,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), color: Colors.white54),
+                borderRadius: BorderRadius.circular(20), color: Colors.white70),
           ),
         )
       ],
