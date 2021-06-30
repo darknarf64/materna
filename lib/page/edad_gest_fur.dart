@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:materna/widgets/page_background.dart';
 import 'package:materna/widgets/textos_encabezado.dart';
 import 'package:materna/widgets/titulos_appbar_page.dart';
+import 'package:materna/widgets/listTitle_resultados.dart';
 
 class Edadgestacionalfur extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _EdadgestacionalfurState extends State<Edadgestacionalfur> {
   String _fechaFUR = '';
   DateTime picketFUR = DateTime.now();
   DateTime picketFecha = DateTime.now();
+  bool _visibility = false;
 
   //variables de resultados
   String semanasYdias = '';
@@ -63,6 +65,39 @@ class _EdadgestacionalfurState extends State<Edadgestacionalfur> {
           _crearImputFecha(context),
           Divider(),
           _crearBotonCalcular(),
+          Divider(),
+          Visibility(
+            visible: _visibility,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.blueAccent, width: 3)),
+              child: Column(
+                children: [
+                  TextoResultados(
+                    title: Text(dias),
+                    subtitle: Text('Dias'),
+                    icon: Icon(Icons.check),
+                  ),
+                  TextoResultados(
+                    title: Text(semanas),
+                    subtitle: Text('Semana gestacional'),
+                    icon: Icon(Icons.check),
+                  ),
+                  TextoResultados(
+                    title: Text(semanasYdias),
+                    subtitle: Text('Semanas y días de gestación'),
+                    icon: Icon(Icons.check),
+                  ),
+                  TextoResultados(
+                    title: Text(fpp),
+                    subtitle: Text('Fecha probable de parto'),
+                    icon: Icon(Icons.check),
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -133,6 +168,7 @@ class _EdadgestacionalfurState extends State<Edadgestacionalfur> {
     );
   }
 
+//seleciona fecha actual
   Future _seleccionarFecha(BuildContext context) async {
     DateTime? picked = await showDatePicker(
         context: context,
@@ -146,33 +182,44 @@ class _EdadgestacionalfurState extends State<Edadgestacionalfur> {
         picketFecha = picked;
         _fecha = DateFormat('dd-MM-yyyy').format(picked);
         _inputFieldFechaController.text = _fecha;
-        print(_fecha);
       });
     }
   }
 
+  //validar llenado de fechas
   bool _revisarLlenadodeFechas() {
-    if (_fecha.isEmpty || _fechaFUR.isEmpty) {
+    if (_fecha.isEmpty ||
+        _fechaFUR.isEmpty ||
+        picketFecha.difference(picketFUR).inDays < 0) {
       return true;
     } else {
       return false;
     }
   }
 
+//crea el boton calcular
   Widget _crearBotonCalcular() {
     return ElevatedButton(
         onPressed: _revisarLlenadodeFechas()
             ? null
             : () {
                 FocusScope.of(context).requestFocus(new FocusNode());
-                _funcionBotonCalcular(picketFUR, picketFecha);
+                List resultados = _funcionBotonCalcular(picketFUR, picketFecha);
+                setState(() {
+                  semanas = resultados[0];
+                  dias = resultados[1];
+                  semanasYdias = resultados[2];
+                  fpp = resultados[3];
+                });
+
+                _visibility = true;
               },
         child: Text('Calcular'));
   }
 }
 
-//continuara...
-void _funcionBotonCalcular(DateTime fechainicio, DateTime fechaactual) {
+//retorna una lista con 0: semana gestacional, 1: dias totales, 2: semanas y dias, 3:fecha probable de parto
+List<String> _funcionBotonCalcular(DateTime fechainicio, DateTime fechaactual) {
   Duration _diferencia = fechaactual.difference(fechainicio);
   int dias = _diferencia.inDays;
   double semanas = dias / 7;
@@ -187,8 +234,26 @@ void _funcionBotonCalcular(DateTime fechainicio, DateTime fechaactual) {
 
   String fechaPParto = DateFormat('dd-MM-yyyy').format(fpp);
 
-  print(dias);
-  print(semanas);
-  print('$semanasEntero semanas $diasEntero días');
-  print(fechaPParto);
+  String semanasString;
+
+  if (semanasEntero == 1) {
+    semanasString = 'semana';
+  } else {
+    semanasString = 'semanas';
+  }
+  String diasString;
+
+  if (diasEntero == 1) {
+    diasString = 'día';
+  } else {
+    diasString = 'días';
+  }
+
+  String semanasYdia = '$semanasEntero $semanasString $diasEntero $diasString';
+
+  double semanasRedon = semanas * 10;
+  semanasRedon = semanasRedon.roundToDouble();
+  semanasRedon = semanasRedon / 10;
+
+  return [semanasRedon.toString(), dias.toString(), semanasYdia, fechaPParto];
 }

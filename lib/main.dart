@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         const Locale('es', 'ES'), // Spanish, no country code
       ],
       debugShowCheckedModeBanner: false,
-      initialRoute: 'edadgestFUR',
+      initialRoute: 'home',
       routes: {
         'home': (BuildContext context) => HomePage(),
         'edadgestFUR': (BuildContext context) => Edadgestacionalfur(),

@@ -19,12 +19,12 @@ class CardTable extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'enutIMCPreG');
+              Navigator.pushNamed(context, 'edadgestEco');
             },
             child: _SingleCard(
-                color: Colors.pinkAccent,
-                icon: Icons.assignment,
-                text: 'Estado nutrcional según IMC pre-gestacional'),
+                color: Colors.deepOrange,
+                icon: Icons.preview,
+                text: 'Edad gestacional según fecha de ecografía'),
           ),
         ]),
         TableRow(children: [
@@ -39,12 +39,12 @@ class CardTable extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'edadgestEco');
+              Navigator.pushNamed(context, 'enutIMCPreG');
             },
             child: _SingleCard(
-                color: Colors.deepOrange,
-                icon: Icons.preview,
-                text: 'Edad gestacional según fecha de última ecografía'),
+                color: Colors.pinkAccent,
+                icon: Icons.assignment,
+                text: 'Estado nutrcional según IMC pre-gestacional'),
           ),
         ]),
         TableRow(children: [
