@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:materna/widgets/listTitle_resultados.dart';
 
+import 'package:materna/widgets/listTitle_resultados.dart';
 import 'package:materna/widgets/titulos_appbar_page.dart';
 import 'package:materna/widgets/page_background.dart';
 import 'package:materna/widgets/textos_encabezado.dart';
@@ -54,6 +54,7 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
         ));
   }
 
+//crea el listado de inputs
   Widget _crearListado(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -80,13 +81,14 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
     );
   }
 
+//crea la lista de resultados
   Visibility _listadeResultados() {
     return Visibility(
       visible: _visibility,
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.blueAccent, width: 3)),
+            border: Border.all(color: Colors.orangeAccent, width: 3)),
         child: Column(
           children: [
             TextoResultados(
@@ -120,6 +122,7 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
     );
   }
 
+//crea input fecha de ecografía
   Widget _crearInputFechaEco(BuildContext context) {
     return Container(
       height: 100,
@@ -142,6 +145,7 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
     );
   }
 
+//metodo del input fecha de ecografía
   Future _seleccionarFechaEco(BuildContext context) async {
     DateTime? picked = await showDatePicker(
         context: context,
@@ -159,6 +163,7 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
     }
   }
 
+//crea el input fecha de evaluación
   Widget _crearImputFechaEva(BuildContext context) {
     return Container(
       height: 100,
@@ -181,6 +186,7 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
     );
   }
 
+//metodo del input de fecha de evaluacion
   Future _seleccionarFechaEVA(BuildContext context) async {
     DateTime? picked = await showDatePicker(
         context: context,
@@ -198,9 +204,10 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
     }
   }
 
+//crea el listado del resultado de la ecografía en semanas y días
   Widget _crearListadoResultado() {
     final _listaSemana = [];
-    for (int i = 4; i < 43; i++) {
+    for (int i = 4; i < 40; i++) {
       _listaSemana.add(i);
     }
 
@@ -268,18 +275,72 @@ class _EdadSegunEcografiaState extends State<EdadSegunEcografia> {
             ? null
             : () {
                 FocusScope.of(context).requestFocus(new FocusNode());
-                // List resultados = _funcionBotonCalcular(picketFUR, picketFecha);
-                // setState(() {
-                //   semanas = resultados[0];
-                //   dias = resultados[1];
-                //   semanasYdias = resultados[2];
-                //   fpp = resultados[3];
-                // });
+                List resultados = _accionesCalcular(
+                    picketEco, picketFechaEva, _valorSemana, _valordias);
+
+                //fechaUltimaRegla, semanasRedon.toString(), dias.toString(), semanasYdia, fechaPParto
 
                 setState(() {
+                  fur = resultados[0];
+                  semanas = resultados[1];
+                  dias = resultados[2];
+                  semanasYdias = resultados[3];
+                  fpp = resultados[4];
                   _visibility = true;
                 });
               },
         child: Text('Calcular'));
+  }
+
+//metodo del boton calculár devuelve un list<String> de los resultados
+  List<String> _accionesCalcular(DateTime fechaecog, DateTime fechaactual,
+      String semamanTxt, String diaTxt) {
+    int diastotales = (int.parse(semamanTxt) * 7) + int.parse(diaTxt);
+    DateTime fur = fechaecog.subtract(Duration(days: diastotales));
+    String fechaUltimaRegla = DateFormat('dd-MM-yyyy').format(fur);
+
+    Duration _diferencia = fechaactual.difference(fur);
+    int dias = _diferencia.inDays;
+    double semanas = dias / 7;
+    double resto = semanas % 1;
+    double diasresto = resto * 7;
+    diasresto = diasresto.roundToDouble();
+
+    int semanasEntero = semanas.toInt();
+    int diasEntero = diasresto.toInt();
+
+    DateTime fpp = fur.add(const Duration(days: 280));
+
+    String fechaPParto = DateFormat('dd-MM-yyyy').format(fpp);
+
+    String semanasString;
+
+    if (semanasEntero == 1) {
+      semanasString = 'semana';
+    } else {
+      semanasString = 'semanas';
+    }
+    String diasString;
+
+    if (diasEntero == 1) {
+      diasString = 'día';
+    } else {
+      diasString = 'días';
+    }
+
+    String semanasYdia =
+        '$semanasEntero $semanasString $diasEntero $diasString';
+
+    double semanasRedon = semanas * 10;
+    semanasRedon = semanasRedon.roundToDouble();
+    semanasRedon = semanasRedon / 10;
+
+    return [
+      fechaUltimaRegla,
+      semanasRedon.toString(),
+      dias.toString(),
+      semanasYdia,
+      fechaPParto
+    ];
   }
 }
