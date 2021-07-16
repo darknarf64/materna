@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:materna/class/evaluacion_ganancia_peso.dart';
+import 'package:materna/widgets/listTitle_resultados.dart';
 import 'package:materna/widgets/page_background.dart';
 import 'package:materna/widgets/textos_encabezado.dart';
 import 'package:materna/widgets/titulos_appbar_page.dart';
@@ -9,11 +11,21 @@ class Pesoestimado extends StatefulWidget {
 }
 
 class _PesoestimadoState extends State<Pesoestimado> {
+  //variables para el calculo
   String _peso = '';
   String _talla = '';
   String _valorSemana = '1';
   String _valordias = '0';
   int _emultiple = 1;
+  String _pesoEstimadoString = '';
+  String _imcPregestacionalString = '';
+  String _estadoNutPreGestString = '';
+
+//variables para el resultado
+  bool _visibility = false;
+
+  //instancias
+  EvaluacionGananciaPeso evaluacion = new EvaluacionGananciaPeso();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +65,9 @@ class _PesoestimadoState extends State<Pesoestimado> {
           Divider(),
           Text('Embarazo múltiple'),
           _crearRadioEmbMultiple(),
-          _botonCalcular(_peso, _talla, _valorSemana, _valordias, _emultiple),
+          _botonCalcular(),
+          Divider(),
+          _listadeResultados()
         ],
       ),
     );
@@ -180,43 +194,106 @@ class _PesoestimadoState extends State<Pesoestimado> {
     );
   }
 
-  _botonCalcular(String pesoST, String tallaST, String semanagestST,
-      String diagestST, int embMultiple) {
+  _botonCalcular() {
     return ElevatedButton(
         child: Text('Calcular'),
-        onPressed: () {
-          print(pesoST);
-        });
+        onPressed: _revisarLlenadocompleto()
+            ? null
+            : () {
+                String estadoNutricional = _calcularEstNut(_peso, _talla);
+                List<double> rangoPeso = evaluacion.findPesoSemana(
+                    estadoNutricional, _valorSemana, _valordias, _emultiple);
+                double pesominimoganado = rangoPeso[0];
+                double pesoEstimado = double.parse(_peso) - pesominimoganado;
+                double imcPregestacional =
+                    calcularIMC(pesoEstimado.toString(), _talla);
+                imcPregestacional = imcPregestacional * 10;
+                imcPregestacional = (imcPregestacional.roundToDouble()) / 10;
+                String estadoPregestacional = estadoNutIMC(imcPregestacional);
+                _pesoEstimadoString = pesoEstimado.toString();
+                _imcPregestacionalString = imcPregestacional.toString();
+                _estadoNutPreGestString = estadoPregestacional;
+                setState(() {
+                  _visibility = true;
+                });
+              });
   }
 
-//   _accionesCalcular(String pesoST, String tallaST, String semanagestST,
-//       String diagestST, int embMultiple) {
-//     double peso = double.parse(pesoST);
-//     double talla = double.parse(tallaST);
-//     talla = talla / 100;
-//     double tallaCuadrado = talla * talla;
-//     double imc = peso / tallaCuadrado;
-//     int semana = int.parse(semanagestST);
-//     int dias = int.parse(diagestST);
-//     String estadonutricional;
+  String _calcularEstNut(String pesoST, String tallaST) {
+    double imc = calcularIMC(pesoST, tallaST);
+    String estadonutricional;
+    estadonutricional = estadoNutIMC(imc);
+    return estadonutricional;
+  }
 
-// //comienza sentencia if else
-//     if (imc < 18.5) {
-//       estadonutricional = 'Bajo peso';
-//     } else {
-//       if (imc < 25) {
-//         estadonutricional = 'Normal';
-//       } else {
-//         if (imc < 30) {
-//           estadonutricional = 'Sobrepeso';
-//         } else {
-//           estadonutricional = 'Obesidad';
-//         }
-//       }
-//     }
-//     //termina sentencia if
-//     print(estadonutricional);
-//     print(semana);
-//     print(dias);
-//   }
+  String estadoNutIMC(double imc) {
+    String estadonutricional;
+    if (imc < 18.5) {
+      estadonutricional = 'Bajo peso';
+    } else {
+      if (imc < 25) {
+        estadonutricional = 'Normal';
+      } else {
+        if (imc < 30) {
+          estadonutricional = 'Sobrepeso';
+        } else {
+          estadonutricional = 'Obesidad';
+        }
+      }
+    }
+
+    return estadonutricional;
+  }
+
+  double calcularIMC(String pesoST, String tallaST) {
+    double peso = double.parse(pesoST);
+    double talla = double.parse(tallaST);
+    talla = talla / 100;
+    double tallaCuadrado = talla * talla;
+    double imc = peso / tallaCuadrado;
+    return imc;
+  }
+
+  //validar llenado de fechas
+  bool _revisarLlenadocompleto() {
+    if (_peso.isEmpty ||
+        _talla.isEmpty ||
+        double.tryParse(_peso) == null ||
+        double.tryParse(_talla) == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //crea la lista de resultados
+  Visibility _listadeResultados() {
+    return Visibility(
+      visible: _visibility,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.cyan, width: 3)),
+        child: Column(
+          children: [
+            TextoResultados(
+              title: Text(_pesoEstimadoString),
+              subtitle: Text('Peso pre-gestacional Estimado'),
+              icon: Icon(Icons.check),
+            ),
+            TextoResultados(
+              title: Text(_imcPregestacionalString),
+              subtitle: Text('IMC pregestacional'),
+              icon: Icon(Icons.check),
+            ),
+            TextoResultados(
+              title: Text(_estadoNutPreGestString),
+              subtitle: Text('Estado nutricional pre-gestacional'),
+              icon: Icon(Icons.check),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
