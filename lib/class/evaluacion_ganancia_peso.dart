@@ -299,4 +299,80 @@ class EvaluacionGananciaPeso {
     39: [10.6, 18.3],
     40: [11, 19],
   };
+
+  List<double> findPesoSemana(
+      String estadoNutricional, String semana, String dias, int emultiple) {
+    int semanaint = int.parse(semana);
+    int diasInt = int.parse(dias);
+    int buscarSemana;
+    if (diasInt < 4) {
+      buscarSemana = semanaint;
+    } else {
+      buscarSemana = semanaint + 1;
+    }
+
+    if (buscarSemana > 40) {
+      buscarSemana = 40;
+    }
+
+    List<double> resultado;
+
+    if (emultiple == 1) {
+      switch (estadoNutricional) {
+        case "Bajo peso":
+          {
+            resultado = gestanteBajoPeso[buscarSemana]!;
+          }
+          break;
+
+        case "Normal":
+          {
+            resultado = gestanteNormoPesoUnico[buscarSemana]!;
+          }
+          break;
+        case "Sobrepeso":
+          {
+            resultado = gestanteSobrePesoUnico[buscarSemana]!;
+          }
+          break;
+        case "Obesidad":
+          {
+            resultado = gestanteObesidadUnico[buscarSemana]!;
+          }
+          break;
+
+        default:
+          resultado = [];
+      }
+      return resultado;
+    } else {
+      switch (estadoNutricional) {
+        case "Bajo peso":
+          {
+            resultado = gestanteBajoPeso[buscarSemana]!;
+          }
+          break;
+
+        case "Normal":
+          {
+            resultado = gestanteNormoPesoDoble[buscarSemana]!;
+          }
+          break;
+        case "Sobrepeso":
+          {
+            resultado = gestanteSobrePesoDoble[buscarSemana]!;
+          }
+          break;
+        case "Obesidad":
+          {
+            resultado = gestanteObesidadDoble[buscarSemana]!;
+          }
+          break;
+
+        default:
+          resultado = [];
+      }
+      return resultado;
+    }
+  }
 }
