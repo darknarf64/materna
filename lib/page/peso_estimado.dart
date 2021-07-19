@@ -25,7 +25,7 @@ class _PesoestimadoState extends State<Pesoestimado> {
   bool _visibility = false;
 
   //instancias
-  EvaluacionGananciaPeso evaluacion = new EvaluacionGananciaPeso();
+  EvaluacionNutricional evaluacion = new EvaluacionNutricional();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +41,6 @@ class _PesoestimadoState extends State<Pesoestimado> {
               colorsecunadrio: Colors.cyanAccent,
             ),
             _crearListado(context)
-            //_crearListado(context)
           ],
         ));
   }
@@ -194,7 +193,7 @@ class _PesoestimadoState extends State<Pesoestimado> {
     );
   }
 
-  _botonCalcular() {
+  Widget _botonCalcular() {
     return ElevatedButton(
         child: Text('Calcular'),
         onPressed: _revisarLlenadocompleto()
@@ -206,10 +205,9 @@ class _PesoestimadoState extends State<Pesoestimado> {
                 double pesominimoganado = rangoPeso[0];
                 double pesoEstimado = double.parse(_peso) - pesominimoganado;
                 double imcPregestacional =
-                    calcularIMC(pesoEstimado.toString(), _talla);
-                imcPregestacional = imcPregestacional * 10;
-                imcPregestacional = (imcPregestacional.roundToDouble()) / 10;
-                String estadoPregestacional = estadoNutIMC(imcPregestacional);
+                    evaluacion.calcularIMC(pesoEstimado.toString(), _talla);
+                String estadoPregestacional =
+                    evaluacion.estadoNutIMC(imcPregestacional);
                 _pesoEstimadoString = pesoEstimado.toString();
                 _imcPregestacionalString = imcPregestacional.toString();
                 _estadoNutPreGestString = estadoPregestacional;
@@ -220,39 +218,39 @@ class _PesoestimadoState extends State<Pesoestimado> {
   }
 
   String _calcularEstNut(String pesoST, String tallaST) {
-    double imc = calcularIMC(pesoST, tallaST);
+    double imc = evaluacion.calcularIMC(pesoST, tallaST);
     String estadonutricional;
-    estadonutricional = estadoNutIMC(imc);
+    estadonutricional = evaluacion.estadoNutIMC(imc);
     return estadonutricional;
   }
 
-  String estadoNutIMC(double imc) {
-    String estadonutricional;
-    if (imc < 18.5) {
-      estadonutricional = 'Bajo peso';
-    } else {
-      if (imc < 25) {
-        estadonutricional = 'Normal';
-      } else {
-        if (imc < 30) {
-          estadonutricional = 'Sobrepeso';
-        } else {
-          estadonutricional = 'Obesidad';
-        }
-      }
-    }
+  // String estadoNutIMC(double imc) {
+  //   String estadonutricional;
+  //   if (imc < 18.5) {
+  //     estadonutricional = 'Bajo peso';
+  //   } else {
+  //     if (imc < 25) {
+  //       estadonutricional = 'Normal';
+  //     } else {
+  //       if (imc < 30) {
+  //         estadonutricional = 'Sobrepeso';
+  //       } else {
+  //         estadonutricional = 'Obesidad';
+  //       }
+  //     }
+  //   }
 
-    return estadonutricional;
-  }
+  //   return estadonutricional;
+  // }
 
-  double calcularIMC(String pesoST, String tallaST) {
-    double peso = double.parse(pesoST);
-    double talla = double.parse(tallaST);
-    talla = talla / 100;
-    double tallaCuadrado = talla * talla;
-    double imc = peso / tallaCuadrado;
-    return imc;
-  }
+  // double calcularIMC(String pesoST, String tallaST) {
+  //   double peso = double.parse(pesoST);
+  //   double talla = double.parse(tallaST);
+  //   talla = talla / 100;
+  //   double tallaCuadrado = talla * talla;
+  //   double imc = peso / tallaCuadrado;
+  //   return imc;
+  // }
 
   //validar llenado de fechas
   bool _revisarLlenadocompleto() {

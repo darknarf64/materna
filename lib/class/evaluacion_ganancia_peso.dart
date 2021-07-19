@@ -1,4 +1,4 @@
-class EvaluacionGananciaPeso {
+class EvaluacionNutricional {
   Map<int, List<double>> gestanteBajoPeso = {
     1: [0, 0.1],
     2: [0, 0.3],
@@ -300,6 +300,7 @@ class EvaluacionGananciaPeso {
     40: [11, 19],
   };
 
+//Encontrar el peso según semana gestacional y estado nutricional pregestacional
   List<double> findPesoSemana(
       String estadoNutricional, String semana, String dias, int emultiple) {
     int semanaint = int.parse(semana);
@@ -374,5 +375,64 @@ class EvaluacionGananciaPeso {
       }
       return resultado;
     }
+  }
+
+//calcular imc
+  double calcularIMC(String pesoST, String tallaST) {
+    double peso = double.parse(pesoST);
+    double talla = double.parse(tallaST);
+    talla = talla / 100;
+    double tallaCuadrado = talla * talla;
+    double imc = peso / tallaCuadrado;
+    imc = imc * 10;
+    imc = (imc.roundToDouble()) / 10;
+    return imc;
+  }
+
+//Calcula el estado nutricional según imc
+  String estadoNutIMC(double imc) {
+    String estadonutricional;
+    if (imc < 18.5) {
+      estadonutricional = 'Bajo peso';
+    } else {
+      if (imc < 25) {
+        estadonutricional = 'Normal';
+      } else {
+        if (imc < 30) {
+          estadonutricional = 'Sobrepeso';
+        } else {
+          estadonutricional = 'Obesidad';
+        }
+      }
+    }
+
+    return estadonutricional;
+  }
+
+  String estadoDeGananciaDePeso(String pesoActual, String pesoPreGest,
+      double pesominimo, double pesomaximo) {
+    String _resultados;
+    double _pesoActual = double.parse(pesoActual);
+    double _pesoPregest = double.parse(pesoPreGest);
+    double diferenciaPesos = _pesoActual - _pesoPregest;
+    if (diferenciaPesos < pesominimo) {
+      _resultados = 'O261: Aumento pequeño de peso en el embarazo';
+    } else {
+      if (diferenciaPesos > pesomaximo) {
+        _resultados = 'O260: Aumento excesivo de peso en el embarazo';
+      } else {
+        _resultados = 'Ganancia adecuada de peso en el embarazo';
+      }
+    }
+    return _resultados;
+  }
+
+  double diferenciaDePesos(String pesoActual, String pesoPreGest) {
+    double _pesoActual = double.parse(pesoActual);
+    double _pesoPregest = double.parse(pesoPreGest);
+    double diferenciaPesos = _pesoActual - _pesoPregest;
+    diferenciaPesos = diferenciaPesos * 10;
+    diferenciaPesos = (diferenciaPesos.roundToDouble()) / 10;
+    return diferenciaPesos;
   }
 }
