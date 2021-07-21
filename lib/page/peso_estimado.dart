@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:materna/class/evaluacion_ganancia_peso.dart';
+import 'package:materna/class/evaluacion_nutricional.dart';
 import 'package:materna/widgets/listTitle_resultados.dart';
 import 'package:materna/widgets/page_background.dart';
 import 'package:materna/widgets/textos_encabezado.dart';
@@ -32,7 +32,8 @@ class _PesoestimadoState extends State<Pesoestimado> {
         appBar: AppBar(
           backgroundColor: Color(0xff800040),
           title: TituloAppBar(
-              text: 'Peso Estimado', icon: Icons.account_balance_wallet),
+              text: 'Peso pre-gestacional estimado',
+              icon: Icons.account_balance_wallet),
         ),
         body: Stack(
           children: [
@@ -52,7 +53,8 @@ class _PesoestimadoState extends State<Pesoestimado> {
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         children: [
           TextoEncabezado(
-            text: 'Peso Estimado según peso actual y semana gestacional',
+            text:
+                'Peso pre-gestacional estimado según peso actual y semana gestacional',
           ),
           Divider(),
           _crearInputPeso(),
@@ -78,7 +80,7 @@ class _PesoestimadoState extends State<Pesoestimado> {
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
           hintText: 'Peso en Kg',
-          labelText: 'Peso',
+          labelText: 'Peso actual',
           helperText: '$_peso kg',
           suffixIcon: Icon(Icons.accessibility),
           icon: Icon(Icons.account_balance),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:materna/class/evaluacion_ganancia_peso.dart';
+import 'package:materna/class/evaluacion_nutricional.dart';
 import 'package:materna/widgets/listTitle_resultados.dart';
 import 'package:materna/widgets/page_background.dart';
 import 'package:materna/widgets/textos_encabezado.dart';
@@ -143,6 +143,7 @@ class _EvaluacionNutricionalTotalState
     );
   }
 
+//boton calcular
   Widget _botonCalcular() {
     return ElevatedButton(
         child: Text('Calcular'),

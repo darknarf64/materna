@@ -435,4 +435,83 @@ class EvaluacionNutricional {
     diferenciaPesos = (diferenciaPesos.roundToDouble()) / 10;
     return diferenciaPesos;
   }
+
+  //compara el peso ganado entre una semana y otra
+  String compararGananciaPorSemana(double pesoxSemana, String estadoNutPreg) {
+    String _estado = estadoNutPreg;
+    String _resultado;
+
+// bp 0.44	0.58
+// n 0.35	0.5
+// sp 0.23	0.33
+// ob 0.17	0.27
+
+    switch (_estado) {
+      case 'Bajo peso':
+        {
+          if (pesoxSemana < 0.44) {
+            _resultado = 'O261: Aumento pequeño de peso en el embarazo';
+          } else {
+            if (pesoxSemana > 0.58) {
+              _resultado = 'O260: Aumento excesivo de peso en el embarazo';
+            } else {
+              _resultado = 'Ganancia adecuada de peso en el embarazo';
+            }
+          }
+        }
+
+        break;
+
+      case 'Normal':
+        {
+          if (pesoxSemana < 0.35) {
+            _resultado = 'O261: Aumento pequeño de peso en el embarazo';
+          } else {
+            if (pesoxSemana > 0.50) {
+              _resultado = 'O260: Aumento excesivo de peso en el embarazo';
+            } else {
+              _resultado = 'Ganancia adecuada de peso en el embarazo';
+            }
+          }
+        }
+
+        break;
+
+      case 'Sobrepeso':
+        {
+          if (pesoxSemana < 0.23) {
+            _resultado = 'O261: Aumento pequeño de peso en el embarazo';
+          } else {
+            if (pesoxSemana > 0.33) {
+              _resultado = 'O260: Aumento excesivo de peso en el embarazo';
+            } else {
+              _resultado = 'Ganancia adecuada de peso en el embarazo';
+            }
+          }
+        }
+
+        break;
+
+      case 'Obesidad':
+        {
+          if (pesoxSemana < 0.17) {
+            _resultado = 'O261: Aumento pequeño de peso en el embarazo';
+          } else {
+            if (pesoxSemana > 0.27) {
+              _resultado = 'O260: Aumento excesivo de peso en el embarazo';
+            } else {
+              _resultado = 'Ganancia adecuada de peso en el embarazo';
+            }
+          }
+        }
+
+        break;
+
+      default:
+        {
+          _resultado = '';
+        }
+    }
+    return _resultado;
+  }
 }
