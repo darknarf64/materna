@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:materna/class/evaluacion_nutricional.dart';
+import 'package:materna/widgets/listTitle_resultados.dart';
 import 'package:materna/widgets/page_background.dart';
 import 'package:materna/widgets/textos_encabezado.dart';
 import 'package:materna/widgets/titulos_appbar_page.dart';
@@ -11,13 +13,25 @@ class GananciaPesoPorSemana extends StatefulWidget {
 class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
   //variables de uso
   String _primerPeso = '';
-  String _semana1 = '1';
-  String _semana2 = '2';
+  String _semana1 = '14';
+  String _semana2 = '15';
   String _segundoPeso = '';
   String _estadoNutriPreGES = 'Normal';
   bool _visibility = false;
-  double diferenciaPeso = 0.0;
-  int diferenciaSemana = 1;
+
+  //variables de resultado
+  EvaluacionNutricional evaluacion = new EvaluacionNutricional();
+  double diferenciaPesos = 0.0;
+  double pesoPorSemana = 0.0;
+  double diferenciaSemanas = 1;
+  String resultado = '';
+  List<String> gananciasugerida = [
+    '0.44 a 0.58 Kg',
+    '0.35 a 0.50 Kg',
+    '0.23 a 0.33 Kg',
+    '0.17 a 0.27 Kg'
+  ];
+  String resultadoGananciaSugerida = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +61,16 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
           TextoEncabezado(
             text: 'Evaluación nutricional según ganancia de peso por semana',
           ),
+          Center(
+              child: Text(
+            'Entre el 2do y 3er trimestre',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
+          Center(
+              child: Text(
+            'Embarazo único',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
           Divider(),
           Text('Control 1'),
           _crearPrimerControl(),
@@ -58,9 +82,8 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
           _crarlistadoENut(),
           // Divider(),
           _botonCalcular(),
-
-          // Divider(),
-          // _listadeResultados()
+          Divider(),
+          _listadeResultados()
         ],
       ),
     );
@@ -81,7 +104,7 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     );
   }
 
-  //crea el input del peso pre gestacional
+  //crea el input del peso primer control
   Widget _inputPesoControl1() {
     return TextField(
       keyboardType: TextInputType.number,
@@ -101,13 +124,13 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     );
   }
 
-//listado semana primer control
+//widget ROW del primer control listado
   Widget _drowmenuSemana() {
     final _listaSemana = [];
-    for (int i = 1; i < 40; i++) {
+    for (int i = 14; i < 40; i++) {
       _listaSemana.add(i);
     }
-
+//listado del primero control
     return DropdownButton(
       items: _listaSemana
           .map((e) =>
@@ -122,6 +145,7 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     );
   }
 
+//widget ROW del segundo control listado
   Widget _crearSegundoControl() {
     return Row(
       children: [
@@ -137,10 +161,10 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     );
   }
 
-  //listado semana primer control
+  //listado semana segudi control
   Widget _drowmenuSemana2() {
     final _listaSemana = [];
-    for (int i = 1; i < 41; i++) {
+    for (int i = 15; i < 41; i++) {
       _listaSemana.add(i);
     }
 
@@ -178,6 +202,7 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     );
   }
 
+//crea el listado de estado nutricional pregestacional
   Widget _crarlistadoENut() {
     final _estadoNutricional = ['Bajo peso', 'Normal', 'Sobrepeso', 'Obesidad'];
 
@@ -195,18 +220,33 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     );
   }
 
+//boton calcular
   Widget _botonCalcular() {
     return ElevatedButton(
         child: Text('Calcular'),
         onPressed: _revisarLlenadocompleto()
             ? null
             : () {
+                diferenciaPesos =
+                    evaluacion.diferenciaDePesos(_segundoPeso, _primerPeso);
+                diferenciaSemanas =
+                    double.parse(_semana2) - double.parse(_semana1);
+                pesoPorSemana = diferenciaPesos / diferenciaSemanas;
+                pesoPorSemana = (pesoPorSemana * 100);
+                pesoPorSemana = pesoPorSemana.roundToDouble();
+                pesoPorSemana = pesoPorSemana / 100;
+                resultado = evaluacion.compararGananciaPorSemana(
+                    pesoPorSemana, _estadoNutriPreGES);
+                resultadoGananciaSugerida =
+                    _gananciaSugerida(_estadoNutriPreGES);
+
                 setState(() {
                   _visibility = true;
                 });
               });
   }
 
+//control del boton calcular
   bool _revisarLlenadocompleto() {
     if (_primerPeso.isEmpty ||
         _segundoPeso.isEmpty ||
@@ -217,5 +257,76 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
     } else {
       return false;
     }
+  }
+
+  //crea la lista de resultados
+  Visibility _listadeResultados() {
+    return Visibility(
+      visible: _visibility,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.deepPurple, width: 3)),
+        child: Column(
+          children: [
+            TextoResultados(
+              title: Text(pesoPorSemana.toString()),
+              subtitle: Text('Ganancia de peso por semana'),
+              icon: Icon(Icons.check),
+            ),
+            TextoResultados(
+              title: Text(resultadoGananciaSugerida),
+              subtitle: Text('Ganancia de peso sugerida por semana (Kg/sem)'),
+              icon: Icon(Icons.check),
+            ),
+            TextoResultados(
+              title: Text(resultado),
+              subtitle:
+                  Text('Estado nutricional según ganancia de peso semanal'),
+              icon: Icon(Icons.check),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _gananciaSugerida(String estadoNutPre) {
+    String _estado = estadoNutPre;
+    String _resultado;
+
+    switch (_estado) {
+      case 'Bajo peso':
+        {
+          _resultado = gananciasugerida[0];
+        }
+        break;
+
+      case 'Normal':
+        {
+          _resultado = gananciasugerida[1];
+        }
+        break;
+
+      case 'Sobrepeso':
+        {
+          _resultado = gananciasugerida[2];
+        }
+
+        break;
+
+      case 'Obesidad':
+        {
+          _resultado = gananciasugerida[3];
+        }
+
+        break;
+
+      default:
+        {
+          _resultado = '';
+        }
+    }
+    return _resultado;
   }
 }

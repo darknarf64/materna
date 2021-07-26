@@ -300,6 +300,37 @@ class EvaluacionNutricional {
     40: [11, 19],
   };
 
+  Map<int, List<double>> alturaUterina = {
+    13: [8, 12],
+    14: [9, 14],
+    15: [10, 15],
+    16: [12, 17],
+    17: [13, 18],
+    18: [14, 19],
+    19: [14, 20],
+    20: [15, 21],
+    21: [16, 22],
+    22: [17, 23],
+    23: [18, 23],
+    24: [19, 24],
+    25: [20, 25],
+    26: [20, 26],
+    27: [21, 27],
+    28: [22, 27],
+    29: [23, 28],
+    30: [24, 29],
+    31: [24, 30],
+    32: [25, 30],
+    33: [26, 31],
+    34: [26, 32],
+    35: [27, 33],
+    36: [28, 33],
+    37: [29, 34],
+    38: [30, 34],
+    39: [31, 35],
+    40: [31, 35]
+  };
+
 //Encontrar el peso según semana gestacional y estado nutricional pregestacional
   List<double> findPesoSemana(
       String estadoNutricional, String semana, String dias, int emultiple) {
@@ -409,6 +440,7 @@ class EvaluacionNutricional {
     return estadonutricional;
   }
 
+  //estado nutricional segun ganancia de peso total entre el pregestacional y el peso actual
   String estadoDeGananciaDePeso(String pesoActual, String pesoPreGest,
       double pesominimo, double pesomaximo) {
     String _resultados;
@@ -427,6 +459,7 @@ class EvaluacionNutricional {
     return _resultados;
   }
 
+//diferencia entre peso actual y pregestacional
   double diferenciaDePesos(String pesoActual, String pesoPreGest) {
     double _pesoActual = double.parse(pesoActual);
     double _pesoPregest = double.parse(pesoPreGest);
@@ -436,7 +469,7 @@ class EvaluacionNutricional {
     return diferenciaPesos;
   }
 
-  //compara el peso ganado entre una semana y otra
+  //compara el peso por semana en un rango de semanas
   String compararGananciaPorSemana(double pesoxSemana, String estadoNutPreg) {
     String _estado = estadoNutPreg;
     String _resultado;
@@ -513,5 +546,29 @@ class EvaluacionNutricional {
         }
     }
     return _resultado;
+  }
+
+  // Encuentra el valor p10 u p90 de altura uterina según edad gestacional
+  List<double> encontrarAlturaUterina(int semana) {
+    int sem = semana;
+    List<double> resultado = alturaUterina[sem]!;
+    return resultado;
+  }
+//compara la altura uterina con la altura uterina min y max
+
+  String compararAlturaUterina(double alturaUterina, double min, double max) {
+    String resultado;
+    if (alturaUterina < min) {
+      resultado =
+          'Valor anormal para la edad gestacional (bajo el percentil 10)';
+    } else {
+      if (alturaUterina > max) {
+        resultado =
+            'Valor anormal para la edad gestacional (excede al percentil 90)';
+      } else {
+        resultado = 'Valor normal para la edad gestacional';
+      }
+    }
+    return resultado;
   }
 }

@@ -53,6 +53,7 @@ class _EvaluacionNutricionalTotalState
         ));
   }
 
+//crea el listado de widgets
   Widget _crearListado(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
