@@ -70,15 +70,6 @@ class CardTable extends StatelessWidget {
         TableRow(children: [
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'parametrosEcograficos');
-            },
-            child: _SingleCard(
-                color: Colors.indigoAccent,
-                icon: Icons.support,
-                text: 'Parámetros ecográficos y peso del bebé'),
-          ),
-          GestureDetector(
-            onTap: () {
               Navigator.pushNamed(context, 'alturaUterina');
             },
             child: _SingleCard(
@@ -86,27 +77,16 @@ class CardTable extends StatelessWidget {
                 icon: Icons.pregnant_woman,
                 text: 'Evaluación según altura uterina por semana gestacional'),
           ),
-        ]),
-        TableRow(children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, 'cuadroRecomendaciones');
-            },
-            child: _SingleCard(
-                color: Colors.lightGreen,
-                icon: Icons.recommend,
-                text: 'Cuadro de recomencaciones de ganancia de peso'),
-          ),
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, 'biblio');
             },
             child: _SingleCard(
-                color: Colors.pinkAccent,
-                icon: Icons.library_books,
+                color: Colors.lightGreen,
+                icon: Icons.recommend,
                 text: 'Bibliografía'),
           ),
-        ])
+        ]),
       ],
     );
   }
