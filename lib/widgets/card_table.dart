@@ -83,7 +83,7 @@ class CardTable extends StatelessWidget {
             },
             child: _SingleCard(
                 color: Colors.lightGreen,
-                icon: Icons.recommend,
+                icon: Icons.library_books,
                 text: 'Bibliografía'),
           ),
         ]),
