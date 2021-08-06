@@ -73,7 +73,7 @@ class _EnutpregestacionalState extends State<Enutpregestacional> {
           labelText: 'Peso pre-gestacional',
           helperText: '$_peso kg',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.settings_accessibility),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -93,7 +93,7 @@ class _EnutpregestacionalState extends State<Enutpregestacional> {
           labelText: 'Talla',
           helperText: '$_talla cm',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.expand),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -112,6 +112,7 @@ class _EnutpregestacionalState extends State<Enutpregestacional> {
             : () {
                 _imc = evaluacion.calcularIMC(_peso, _talla);
                 _estadonutricionalIMC = evaluacion.estadoNutIMC(_imc);
+                FocusScope.of(context).requestFocus(new FocusNode());
                 setState(() {
                   _visibility = true;
                 });

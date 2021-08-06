@@ -112,8 +112,7 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
           hintText: 'Peso en Kg',
           labelText: 'Peso Control 1',
           helperText: '$_primerPeso kg',
-          suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.pregnant_woman),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -190,8 +189,7 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
           hintText: 'Peso en Kg',
           labelText: 'Peso Control 2',
           helperText: '$_segundoPeso kg',
-          suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.pregnant_woman),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -239,6 +237,7 @@ class _GananciaPesoPorSemanaState extends State<GananciaPesoPorSemana> {
                     pesoPorSemana, _estadoNutriPreGES);
                 resultadoGananciaSugerida =
                     _gananciaSugerida(_estadoNutriPreGES);
+                FocusScope.of(context).requestFocus(new FocusNode());
 
                 setState(() {
                   _visibility = true;

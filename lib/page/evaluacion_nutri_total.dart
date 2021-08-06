@@ -93,7 +93,7 @@ class _EvaluacionNutricionalTotalState
           labelText: 'Peso actual',
           helperText: '$_peso kg',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.pregnant_woman_sharp),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -113,7 +113,7 @@ class _EvaluacionNutricionalTotalState
           labelText: 'Peso pre-gestacional',
           helperText: '$_pesoPreges kg',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.settings_accessibility),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -133,7 +133,7 @@ class _EvaluacionNutricionalTotalState
           labelText: 'Talla actual',
           helperText: '$_talla cm',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.expand),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -167,6 +167,7 @@ class _EvaluacionNutricionalTotalState
                     evaluacion.diferenciaDePesos(_peso, _pesoPreges);
                 estadoGananciaPeso = evaluacion.estadoDeGananciaDePeso(
                     _peso, _pesoPreges, pesominimo, pesomaximo);
+                FocusScope.of(context).requestFocus(new FocusNode());
 
                 setState(() {
                   _visibility = true;

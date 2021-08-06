@@ -83,7 +83,7 @@ class _PesoestimadoState extends State<Pesoestimado> {
           labelText: 'Peso actual',
           helperText: '$_peso kg',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.settings_accessibility),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -103,7 +103,7 @@ class _PesoestimadoState extends State<Pesoestimado> {
           labelText: 'Talla',
           helperText: '$_talla cm',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          icon: Icon(Icons.expand),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -213,6 +213,7 @@ class _PesoestimadoState extends State<Pesoestimado> {
                 _pesoEstimadoString = pesoEstimado.toString();
                 _imcPregestacionalString = imcPregestacional.toString();
                 _estadoNutPreGestString = estadoPregestacional;
+                FocusScope.of(context).requestFocus(new FocusNode());
                 setState(() {
                   _visibility = true;
                 });

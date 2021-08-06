@@ -71,8 +71,8 @@ class _ALturaUterinaState extends State<ALturaUterina> {
           hintText: 'cm',
           labelText: 'Altura Uterina',
           helperText: '$_alturaUterina cm',
-          suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_balance),
+          suffixIcon: Icon(Icons.pregnant_woman),
+          icon: Icon(Icons.brightness_3),
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
       onChanged: (valor) {
@@ -117,6 +117,7 @@ class _ALturaUterinaState extends State<ALturaUterina> {
                 alturaUterina = double.parse(_alturaUterina);
                 resultado =
                     evaluacion.compararAlturaUterina(alturaUterina, min, max);
+                FocusScope.of(context).requestFocus(new FocusNode());
                 setState(() {
                   _visibility = true;
                 });
