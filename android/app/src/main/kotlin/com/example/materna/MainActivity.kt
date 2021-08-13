@@ -1,4 +1,4 @@
-package com.example.materna
+package com.nutriapps.blogspot.materna
 
 import io.flutter.embedding.android.FlutterActivity
 
